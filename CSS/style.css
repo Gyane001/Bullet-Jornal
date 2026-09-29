@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Ropa+Sans&display=swap');
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+ font-family: "Roboto Mono", monospace;
+  min-height: 400px;
+  background-color: #65743A !important;
+  background-image: url('../Images/f424ffd9feeb910160746bf96d1efdc2.jpg');
+}
+
+.fundo{
+  background-color: #34460346;
+}
+
+.container {
+  text-align: center;
+  height: auto;  
+  margin: 2% 25% 2% 25%;  
+  width: 50%;  
+  padding: 2%;
+  background-color: #65743A;
+  border-radius: 25px;
+}
+
+.conteudo{
+  margin: 2% 25% 2% 25%;    
+  padding: 5%;
+  background-color: #65743A;
+  border-radius: 25px;
+}
+
+.TituloPagina {
+  font-family: "Agbalumo", system-ui, sans-serif;
+  color: #EFDD8D;
+  margin: 0 0 20px;
+  font-size: 80px;  
+}
+
+.SubTitulo {
+  font-family: "Jersey 15", sans-serif;
+  color: #ffffff;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 25px;
+}
+
+.margem {
+  font-family: "Yarndings 20", system-ui, sans-serif;
+  color: #B1CC60;
+  font-size: 18px;
+  margin: 20px 0;
+}
+
+.margem2 {
+  font-family: "Jersey 15", sans-serif;
+  color: #ffffff;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.video {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.Texto {
+  text-align: center;
+  color: #ffffff;
+  font-family: "Poppins", system-ui;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.textoTitulo{
+  color:#ffffff !important;
+  font-family: sans-serif;
+  font-size: 23px;
+  line-height: 1.6;
+  font-weight: bold;
+  margin-top: 25px;
+  text-align: center;
+}
+
+.poppins-thin {
+  font-family: "Poppins", system-ui;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.poppins-medium-italic {
+  font-family: "Poppins", system-ui;
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* IMAGENS */
+.imagemHome{
+  width: 100%;
+  border: 10px solid #042704;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+  border-style: dashed;
+  border-radius: 25px;
+  background: #7b8d48;
+}
+
+.imagens{
+  width: 45%;
+  display: inline;
+}
+
+.video{
+  width: 560px;
+  height: 315px;
+}
+
+/* IMAGENS */
+.header {
+  width: 100%;
+  height: 110px;
+  background-color: #050404;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+  gap: 10px;
+  padding: 10px;
+}
+.logo h1 {
+  font-family: "Agbalumo", system-ui, sans-serif;
+  color: #ffffff;
+  font-size: 60px;
+  font-weight: 100;
+  margin-bottom: 20px;
+  
+}
+
+.navbar {
+  background-color: #333;
+  overflow: hidden;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+}
+
+.navbar ul li {
+  padding: 10px 0;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: white;
+  display: block;
+}
+
+.navbar ul li a:hover {
+  background-color: #575757;
+  border-radius: 4px;
+}
+/* Media Query para tablets (largura até 768px) */
+@media (max-width: 768px) {
+  .TituloPagina {
+    font-size: 60px;
+  }
+
+  .container, .conteudo {
+    margin: 2% 10%;
+    width: 80%;
+  }
+
+  .Texto, .textoTitulo, .SubTitulo {
+    font-size: 16px;
+  }
+
+  .imagemHome {
+    width: 100%;
+  }
+
+  .imagens {
+    width: 100%;
+  }
+
+  .logo h1 {
+    font-size: 50px;
+  }
+}
+
+/* Media Query para smartphones (largura até 375px) */
+@media (max-width: 375px) {
+  .TituloPagina {
+    font-size: 40px;
+  }
+
+  .container, .conteudo {
+    margin: 2% 5%;
+    width: 90%;
+  }
+
+  .Texto, .textoTitulo, .SubTitulo {
+    font-size: 14px;
+  }
+
+  .imagemHome {
+    width: 100%;
+  }
+
+  .imagens {
+    width: 100%;
+  }
+
+  .logo h1 {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .video {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 375px) {
+  .video {
+    width: 100%;
+    height: auto;
+  }
+}
