@@ -1,225 +1,238 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Planner Mensal</title>
-  <link rel="stylesheet" href="../CSS/calendario.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planner Mensal</title>
+    <link rel="stylesheet" href="../CSS/calendario.css">
 </head>
+
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <button class="icon-button" id="menuButton" aria-label="Abrir menu">☰</button>
+    <div class="app-shell">
+        <header class="topbar">
+            <button class="icon-button" id="menuButton" aria-label="Abrir menu">☰</button>
 
-      <div class="brand">
-        <span class="brand-mark">✦</span>
-        <div>
-          <strong>Meu Planner</strong>
-          <small>Organize seus dias</small>
-        </div>
-      </div>
-
-      <div class="header-actions">
-        <button class="secondary-button" id="todayButton">Hoje</button>
-        <button class="primary-button" id="headerAddButton">＋ <span>Adicionar evento</span></button>
-      </div>
-    </header>
-
-    <aside class="side-menu" id="sideMenu">
-      <div class="side-menu-header">
-        <div>
-          <strong>Menu</strong>
-          <small>Navegação rápida</small>
-        </div>
-        <button class="icon-button small" id="closeMenuButton">×</button>
-      </div>
-
-      <nav>
-        <button class="menu-item active" data-menu-action="calendar">▦ <span>Calendário</span></button>
-        <button class="menu-item" data-menu-action="events">◉ <span>Eventos</span></button>
-        <button class="menu-item" data-menu-action="customize">✦ <span>Personalizar</span></button>
-        <button class="menu-item" data-menu-action="themes">◐ <span>Temas</span></button>
-        <button class="menu-item" data-menu-action="future">☷ <span>Configurações futuras</span></button>
-      </nav>
-    </aside>
-
-    <div class="menu-overlay" id="menuOverlay"></div>
-
-    <main class="planner-layout">
-      <section class="events-panel">
-        <div class="panel-heading">
-          <div>
-            <span class="eyebrow">VISÃO DO DIA</span>
-            <h1 id="selectedDateTitle">22 Setembro</h1>
-            <p id="selectedWeekday">Terça-feira</p>
-          </div>
-
-          <button class="round-add-button" id="panelAddButton" title="Adicionar evento">＋</button>
-        </div>
-
-        <div class="event-summary">
-          <span id="eventCount">0 eventos</span>
-          <span class="summary-dot"></span>
-          <span>Agenda mensal</span>
-        </div>
-
-        <div class="event-list" id="eventList"></div>
-
-        <button class="wide-add-button" id="wideAddButton">
-          <span>＋</span> Adicionar evento neste dia
-        </button>
-      </section>
-
-      <section class="calendar-panel">
-        <div class="calendar-toolbar">
-          <div>
-            <span class="eyebrow">PLANNER MENSAL</span>
-            <h2 id="currentMonthLabel">Setembro 2026</h2>
-          </div>
-
-          <div class="calendar-actions">
-            <button class="secondary-button" id="previousMonthButton" title="Mês anterior">‹</button>
-            <button class="secondary-button" id="nextMonthButton" title="Próximo mês">›</button>
-          </div>
-        </div>
-
-        <div class="weekdays" id="weekdays">
-          <span>Domingo</span>
-          <span>Segunda-feira</span>
-          <span>Terça-feira</span>
-          <span>Quarta-feira</span>
-          <span>Quinta-feira</span>
-          <span>Sexta-feira</span>
-          <span>Sábado</span>
-        </div>
-
-        <div class="calendar-grid" id="calendarGrid"></div>
-      </section>
-    </main>
-  </div>
-
-  <div class="modal-backdrop" id="eventModalBackdrop">
-    <section class="modal event-modal" role="dialog" aria-modal="true">
-      <div class="modal-header">
-        <div>
-          <span class="eyebrow">PLANNER</span>
-          <h2 id="eventModalTitle">Novo evento</h2>
-        </div>
-        <button class="icon-button small" data-close-modal="eventModalBackdrop">×</button>
-      </div>
-
-      <form id="eventForm">
-        <input type="hidden" id="eventId">
-
-        <div class="form-grid">
-          <label class="field field-wide">
-            <span>Nome do evento</span>
-            <input type="text" id="eventName" placeholder="Ex.: Estudar Engenharia de Software" required>
-          </label>
-
-          <label class="field">
-            <span>Data inicial</span>
-            <input type="date" id="eventStart" required>
-          </label>
-
-          <label class="field">
-            <span>Data final</span>
-            <input type="date" id="eventEnd" required>
-          </label>
-
-          <div class="field color-field">
-            <span>Cor da tag</span>
-            <div class="color-controls">
-              <input type="color" id="eventColorPicker">
-              <input type="text" id="eventColorHex" maxlength="7" placeholder="#A855F7">
+            <div class="brand">
+                <span class="brand-mark">✦</span>
+                <div>
+                    <strong>Meu Planner</strong>
+                    <small>Organize seus dias</small>
+                </div>
             </div>
-            <small class="validation-message" id="eventColorError"></small>
-          </div>
 
-          <div class="field color-field">
-            <span>Cor do texto</span>
-            <div class="color-controls">
-              <input type="color" id="eventTextColorPicker">
-              <input type="text" id="eventTextColorHex" maxlength="7" placeholder="#FFFFFF">
+            <div class="header-actions">
+                <button class="secondary-button" id="todayButton">Hoje</button>
+                <button class="primary-button" id="headerAddButton">＋ <span>Adicionar evento</span></button>
             </div>
-            <small class="validation-message" id="eventTextColorError"></small>
-          </div>
-        </div>
+        </header>
 
-           <label class="field">
-            <span>Ícone</span>
-            <input type="text" id="eventIcon" value="✦" maxlength="4" placeholder="📚">
-          </label>
+        <aside class="side-menu" id="sideMenu">
+            <div class="side-menu-header">
+                <div>
+                    <strong>Menu</strong>
+                    <small>Navegação rápida</small>
+                </div>
+                <button class="icon-button small" id="closeMenuButton">×</button>
+            </div>
 
-        <div class="modal-actions">
-          <button type="button" class="danger-button hidden" id="deleteEventButton">Excluir</button>
-          <span class="actions-spacer"></span>
-          <button type="button" class="secondary-button" data-close-modal="eventModalBackdrop">Cancelar</button>
-          <button type="submit" class="primary-button">Salvar</button>
-        </div>
-      </form>
-    </section>
-  </div>
+            <nav>
+                <nav>
+                     <a class="menu-item active" href="../index.html">
+                        <span>Menu Principal</span></a>
 
-  <div class="modal-backdrop" id="customizeModalBackdrop">
-    <section class="modal customization-modal" role="dialog" aria-modal="true">
-      <div class="modal-header">
-        <div>
-          <span class="eyebrow">APARÊNCIA</span>
-          <h2>Personalizar planner</h2>
-        </div>
-        <button class="icon-button small" data-close-modal="customizeModalBackdrop">×</button>
-      </div>
+                    <a class="menu-item active" href="../PAGES/calendario.html">
+                        <span>Calendário</span></a>
+                        
+                    <button class="menu-item" data-menu-action="customize">✦ <span>Personalizar</span></button>
+                    <button class="menu-item" data-menu-action="themes">◐ <span>Temas</span></button>
+                    <button class="menu-item" data-menu-action="future">☷ <span>Configurações futuras</span></button>
+                </nav>
+        </aside>
 
-      <div class="customization-content">
-        <div class="customization-section">
-          <h3>Cores</h3>
-          <div class="customization-grid" id="colorSettings"></div>
-        </div>
+        <div class="menu-overlay" id="menuOverlay"></div>
 
-        <div class="customization-section">
-          <h3>Dimensões e tipografia</h3>
-          <div class="range-grid">
-            <label class="field">
-              <span>Arredondamento</span>
-              <div class="range-value"><input type="range" id="radiusRange" min="0" max="32"><output id="radiusOutput"></output></div>
-            </label>
+        <main class="planner-layout">
+            <section class="events-panel">
+                <div class="panel-heading">
+                    <div>
+                        <span class="eyebrow">VISÃO DO DIA</span>
+                        <h1 id="selectedDateTitle">22 Setembro</h1>
+                        <p id="selectedWeekday">Terça-feira</p>
+                    </div>
 
-            <label class="field">
-              <span>Espessura das bordas</span>
-              <div class="range-value"><input type="range" id="borderRange" min="0" max="4" step="1"><output id="borderOutput"></output></div>
-            </label>
+                    <button class="round-add-button" id="panelAddButton" title="Adicionar evento">＋</button>
+                </div>
 
-            <label class="field">
-              <span>Espaçamento das células</span>
-              <div class="range-value"><input type="range" id="gapRange" min="2" max="16"><output id="gapOutput"></output></div>
-            </label>
+                <div class="event-summary">
+                    <span id="eventCount">0 eventos</span>
+                    <span class="summary-dot"></span>
+                    <span>Agenda mensal</span>
+                </div>
 
-            <label class="field">
-              <span>Tamanho dos textos</span>
-              <div class="range-value"><input type="range" id="fontRange" min="12" max="18"><output id="fontOutput"></output></div>
-            </label>
-          </div>
-        </div>
+                <div class="event-list" id="eventList"></div>
 
-        <div class="customization-section">
-          <h3>Temas personalizados</h3>
-          <div class="theme-save-row">
-            <input type="text" id="themeName" placeholder="Nome do tema">
-            <button class="primary-button" id="saveThemeButton">Salvar tema</button>
-          </div>
-          <div class="themes-list" id="themesList"></div>
-        </div>
-      </div>
+                <button class="wide-add-button" id="wideAddButton">
+                    <span>＋</span> Adicionar evento neste dia
+                </button>
+            </section>
 
-      <div class="modal-actions">
-        <button class="secondary-button" id="restoreDefaultButton">Restaurar padrão</button>
-        <span class="actions-spacer"></span>
-        <button class="primary-button" data-close-modal="customizeModalBackdrop">Concluir</button>
-      </div>
-    </section>
-  </div>
+            <section class="calendar-panel">
+                <div class="calendar-toolbar">
+                    <div>
+                        <span class="eyebrow">PLANNER MENSAL</span>
+                        <h2 id="currentMonthLabel">Setembro 2026</h2>
+                    </div>
 
-  <script src="../JS/calendario.js"></script>
+                    <div class="calendar-actions">
+                        <button class="secondary-button" id="previousMonthButton" title="Mês anterior">‹</button>
+                        <button class="secondary-button" id="nextMonthButton" title="Próximo mês">›</button>
+                    </div>
+                </div>
+
+                <div class="weekdays" id="weekdays">
+                    <span>Domingo</span>
+                    <span>Segunda-feira</span>
+                    <span>Terça-feira</span>
+                    <span>Quarta-feira</span>
+                    <span>Quinta-feira</span>
+                    <span>Sexta-feira</span>
+                    <span>Sábado</span>
+                </div>
+
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal-backdrop" id="eventModalBackdrop">
+        <section class="modal event-modal" role="dialog" aria-modal="true">
+            <div class="modal-header">
+                <div>
+                    <span class="eyebrow">PLANNER</span>
+                    <h2 id="eventModalTitle">Novo evento</h2>
+                </div>
+                <button class="icon-button small" data-close-modal="eventModalBackdrop">×</button>
+            </div>
+
+            <form id="eventForm">
+                <input type="hidden" id="eventId">
+
+                <div class="form-grid">
+                    <label class="field field-wide">
+                        <span>Nome do evento</span>
+                        <input type="text" id="eventName" placeholder="Ex.: Estudar Engenharia de Software" required>
+                    </label>
+
+                    <label class="field">
+                        <span>Data inicial</span>
+                        <input type="date" id="eventStart" required>
+                    </label>
+
+                    <label class="field">
+                        <span>Data final</span>
+                        <input type="date" id="eventEnd" required>
+                    </label>
+
+                    <div class="field color-field">
+                        <span>Cor da tag</span>
+                        <div class="color-controls">
+                            <input type="color" id="eventColorPicker">
+                            <input type="text" id="eventColorHex" maxlength="7" placeholder="#A855F7">
+                        </div>
+                        <small class="validation-message" id="eventColorError"></small>
+                    </div>
+
+                    <div class="field color-field">
+                        <span>Cor do texto</span>
+                        <div class="color-controls">
+                            <input type="color" id="eventTextColorPicker">
+                            <input type="text" id="eventTextColorHex" maxlength="7" placeholder="#FFFFFF">
+                        </div>
+                        <small class="validation-message" id="eventTextColorError"></small>
+                    </div>
+                </div>
+
+                <label class="field">
+                    <span>Ícone</span>
+                    <input type="text" id="eventIcon" value="✦" maxlength="4" placeholder="📚">
+                </label>
+
+                <div class="modal-actions">
+                    <button type="button" class="danger-button hidden" id="deleteEventButton">Excluir</button>
+                    <span class="actions-spacer"></span>
+                    <button type="button" class="secondary-button"
+                        data-close-modal="eventModalBackdrop">Cancelar</button>
+                    <button type="submit" class="primary-button">Salvar</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <div class="modal-backdrop" id="customizeModalBackdrop">
+        <section class="modal customization-modal" role="dialog" aria-modal="true">
+            <div class="modal-header">
+                <div>
+                    <span class="eyebrow">APARÊNCIA</span>
+                    <h2>Personalizar planner</h2>
+                </div>
+                <button class="icon-button small" data-close-modal="customizeModalBackdrop">×</button>
+            </div>
+
+            <div class="customization-content">
+                <div class="customization-section">
+                    <h3>Cores</h3>
+                    <div class="customization-grid" id="colorSettings"></div>
+                </div>
+
+                <div class="customization-section">
+                    <h3>Dimensões e tipografia</h3>
+                    <div class="range-grid">
+                        <label class="field">
+                            <span>Arredondamento</span>
+                            <div class="range-value"><input type="range" id="radiusRange" min="0" max="32"><output
+                                    id="radiusOutput"></output></div>
+                        </label>
+
+                        <label class="field">
+                            <span>Espessura das bordas</span>
+                            <div class="range-value"><input type="range" id="borderRange" min="0" max="4"
+                                    step="1"><output id="borderOutput"></output></div>
+                        </label>
+
+                        <label class="field">
+                            <span>Espaçamento das células</span>
+                            <div class="range-value"><input type="range" id="gapRange" min="2" max="16"><output
+                                    id="gapOutput"></output></div>
+                        </label>
+
+                        <label class="field">
+                            <span>Tamanho dos textos</span>
+                            <div class="range-value"><input type="range" id="fontRange" min="12" max="18"><output
+                                    id="fontOutput"></output></div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="customization-section">
+                    <h3>Temas personalizados</h3>
+                    <div class="theme-save-row">
+                        <input type="text" id="themeName" placeholder="Nome do tema">
+                        <button class="primary-button" id="saveThemeButton">Salvar tema</button>
+                    </div>
+                    <div class="themes-list" id="themesList"></div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="secondary-button" id="restoreDefaultButton">Restaurar padrão</button>
+                <span class="actions-spacer"></span>
+                <button class="primary-button" data-close-modal="customizeModalBackdrop">Concluir</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="../JS/calendario.js"></script>
 </body>
+
 </html>
