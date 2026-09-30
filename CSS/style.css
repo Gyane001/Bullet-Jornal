@@ -299,6 +299,7 @@ button:focus-visible {
 }
 
 /* ===== Árvore de pastas/páginas ===== */
+/* ===== Árvore de pastas/páginas ===== */
 
 .arvore-item {
   display: flex;
@@ -308,9 +309,10 @@ button:focus-visible {
   padding: 0 8px;
   border-radius: 8px;
   color: var(--secondary-text);
-  cursor: pointer;
+  cursor: grab;
   font-weight: 600;
   font-size: 13px;
+  position: relative;
 }
 
 .arvore-item:hover,
@@ -324,6 +326,7 @@ button:focus-visible {
   font-size: 11px;
   text-align: center;
   color: var(--secondary-text);
+  cursor: pointer;
 }
 
 .arvore-label {
@@ -345,20 +348,105 @@ button:focus-visible {
 }
 
 .arvore-add-btn,
-.arvore-del-btn {
+.arvore-menu-btn {
   border: 0;
   background: transparent;
   color: var(--secondary-text);
-  font-size: 13px;
+  font-size: 14px;
   width: 20px;
   height: 20px;
   border-radius: 6px;
+  line-height: 1;
 }
 
 .arvore-add-btn:hover,
-.arvore-del-btn:hover {
+.arvore-menu-btn:hover {
   background: var(--border-color);
 }
+
+.arvore-filhos {
+  margin-left: 16px;
+}
+
+/* Campo de renomear inline (substitui o prompt) */
+.arvore-rename-input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--primary-text);
+  background: var(--page-bg);
+  border: 1px solid var(--accent-color);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+/* ===== Feedback visual do drag and drop ===== */
+
+.arvore-item.arrastando {
+  opacity: 0.4;
+}
+
+.arvore-item.drop-before {
+  box-shadow: inset 0 2px 0 0 var(--accent-color);
+}
+
+.arvore-item.drop-after {
+  box-shadow: inset 0 -2px 0 0 var(--accent-color);
+}
+
+.arvore-item.drop-inside {
+  background: var(--weekday-bg);
+  outline: 2px dashed var(--accent-color);
+  outline-offset: -2px;
+}
+
+/* ===== Menu de contexto (clique direito ou botão "⋯") ===== */
+
+.context-menu {
+  position: fixed;
+  z-index: 100;
+  display: none;
+  min-width: 190px;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--calendar-bg);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 6px;
+}
+
+.context-menu button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 0;
+  background: transparent;
+  color: var(--primary-text);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-align: left;
+  width: 100%;
+}
+
+.context-menu button:hover {
+  background: var(--weekday-bg);
+}
+
+.context-menu button.excluir {
+  color: #b3453f;
+}
+
+.context-menu-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 4px 2px;
+}
+
 
 .arvore-filhos {
   margin-left: 16px;
@@ -391,24 +479,6 @@ button:focus-visible {
   color: var(--secondary-text);
 }
 
-.arvore-item-wrapper {
-  position: relative;
-}
-
-.arvore-menu-btn {
-  border: 0;
-  background: transparent;
-  color: var(--secondary-text);
-  font-size: 16px;
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  line-height: 1;
-}
-
-.arvore-menu-btn:hover {
-  background: var(--border-color);
-}
 
 .arvore-dropdown {
   position: absolute;

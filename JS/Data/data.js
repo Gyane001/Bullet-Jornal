@@ -20,12 +20,12 @@ function criarItem({ parentId = null, type = "page", title = "Sem título", icon
     const novo = {
         id: gerarId(),
         parentId,
-        type,
+        type, // "folder" ou "page"
         title,
         icon,
         order: itens.length,
         content: "",
-        createdAt: new Date().toISOString() // <-- novo
+        createdAt: new Date().toISOString()
     };
     itens.push(novo);
     salvarItens(itens);
@@ -59,21 +59,35 @@ function obterFilhos(parentId) {
         .sort((a, b) => a.order - b.order);
 }
 
-function duplicarItem(id) {
-    const itens = carregarItens();
-    const original = itens.find(i => i.id === id);
-    if (!original) return null;
-
-    const copia = criarItem({
-        parentId: original.parentId,
-        type: original.type,
-        title: original.title + " (cópia)",
-        icon: original.icon
-    });
-    atualizarItem(copia.id, { content: original.content });
-    return copia;
+// Verifica se "possivelDescendenteId" está dentro da árvore de "raizId"
+// (usado para impedir arrastar uma pasta para dentro dela mesma)
+function ehDescendente(raizId, possivelDescendenteId) {
+    const todos = carregarItens();
+    function coletar(itemId) {
+        const filhos = todos.filter(i => i.parentId === itemId);
+        let ids = filhos.map(f => f.id);
+        filhos.forEach(f => { ids = ids.concat(coletar(f.id)); });
+        return ids;
+    }
+    return coletar(raizId).includes(possivelDescendenteId);
 }
 
-function moverParaRaiz(id) {
-    atualizarItem(id, { parentId: null });
+// Move um item para um novo pai (novoParentId pode ser null = raiz),
+// posicionando-o no índice "indiceDestino" entre os irmãos do destino.
+function moverItem(id, novoParentId, indiceDestino) {
+    if (id === novoParentId) return;
+    if (novoParentId && ehDescendente(id, novoParentId)) return; // evita loop (pasta dentro de si mesma)
+
+    const todos = carregarItens();
+    const item = todos.find(i => i.id === id);
+    if (!item) return;
+
+    item.parentId = novoParentId;
+
+    const irmaos = todos.filter(i => i.parentId === novoParentId && i.id !== id);
+    irmaos.sort((a, b) => a.order - b.order);
+    irmaos.splice(indiceDestino, 0, item);
+    irmaos.forEach((it, idx) => { it.order = idx; });
+
+    salvarItens(todos);
 }
