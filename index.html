@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Planner</title>
     <link rel="stylesheet" href="./CSS/style.css">
+    <script src="./JS/script.js"></script>
+    <script src="./JS/data.js"></script>
 </head>
 
 <body>
     <div class="app-shell">
         <header class="topbar">
-            <button
-                class="icon-button"
-                id="menuButton"
-                type="button"
-                aria-label="Abrir menu"
-                aria-expanded="false"
-                aria-controls="sideMenu"
-            >
+            <button class="icon-button" id="menuButton" type="button" aria-label="Abrir menu" aria-expanded="false"
+                aria-controls="sideMenu">
                 ☰
             </button>
 
@@ -37,41 +34,39 @@
                     <small>Navegação rápida</small>
                 </div>
 
-                <button
-                    class="icon-button small"
-                    id="closeMenuButton"
-                    type="button"
-                    aria-label="Fechar menu"
-                >
+                <button class="icon-button small" id="closeMenuButton" type="button" aria-label="Fechar menu">
                     ×
                 </button>
             </div>
 
             <nav>
-                <a class="menu-item active" href="../index.html">
-                    <span>Menu Principal</span></a>
+                <button class="menu-item active" type="button"> <a href="../index.html">
+                        <span>Menu Principal</span></a>
+                </button>
 
-                <a class="menu-item active" href="./PAGES/calendario.html">
-                    <span>Calendário</span>
-                </a>
+                <button class="menu-item" type="button"> <a href="./PAGES/calendario.html">
+                        <span>Calendário</span> </a>
+                </button>
 
-                <button class="menu-item" type="button" data-menu-action="customize">
+                <button class="menu-item" type="button">
                     ✦ <span>Personalizar</span>
                 </button>
 
-                <button class="menu-item" type="button" data-menu-action="themes">
+                <button class="menu-item" type="button">
                     ◐ <span>Temas</span>
                 </button>
 
-                <button class="menu-item" type="button" data-menu-action="future">
+                <button class="menu-item" type="button">
                     ☷ <span>Configurações futuras</span>
                 </button>
             </nav>
         </aside>
+        
 
         <div class="menu-overlay" id="menuOverlay"></div>
     </div>
 
-    <script src="./JS/script.js"></script>
+
 </body>
+
 </html>
