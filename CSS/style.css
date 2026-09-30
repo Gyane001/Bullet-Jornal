@@ -203,11 +203,155 @@ button:focus-visible {
   display: block;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-  }
+/* ===== Layout geral em coluna (topbar + corpo) ===== */
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-body {
+  flex: 1;
+  display: flex;
+  position: relative;
+  min-height: 0;
+}
+
+.content-area {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ===== Workspace (tipo Notion) ===== */
+
+.workspace {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+
+.workspace-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  padding: 24px 14px;
+  background: var(--calendar-bg);
+  border-right: var(--border-width) solid var(--border-color);
+  overflow-y: auto;
+}
+
+.workspace-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px 14px 30px 14px;
+  gap: 4px;
+}
+
+.workspace-editor {
+  flex: 1;
+  min-width: 0;
+  padding: 48px clamp(24px, 6vw, 80px);
+  overflow-y: auto;
+}
+
+.empty-state {
+  color: var(--secondary-text);
+  font-size: 14px;
+}
+
+/* ===== Árvore de pastas/páginas ===== */
+
+.arvore-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 8px;
+  border-radius: 8px;
+  color: var(--secondary-text);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.arvore-item:hover,
+.arvore-item.selecionado {
+  background: var(--weekday-bg);
+  color: var(--primary-text);
+}
+
+.arvore-seta {
+  width: 14px;
+  font-size: 11px;
+  text-align: center;
+  color: var(--secondary-text);
+}
+
+.arvore-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.arvore-acoes {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.arvore-item:hover .arvore-acoes {
+  opacity: 1;
+}
+
+.arvore-add-btn,
+.arvore-del-btn {
+  border: 0;
+  background: transparent;
+  color: var(--secondary-text);
+  font-size: 13px;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+}
+
+.arvore-add-btn:hover,
+.arvore-del-btn:hover {
+  background: var(--border-color);
+}
+
+.arvore-filhos {
+  margin-left: 16px;
+}
+
+/* ===== Editor da página ===== */
+
+.page-title {
+  display: block;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--primary-text);
+  margin-bottom: 18px;
+}
+
+.page-content {
+  min-height: 300px;
+  font-size: 15px;
+  line-height: 1.7;
+  outline: 0;
+}
+
+.page-content:empty::before {
+  content: "Comece a escrever...";
+  color: var(--secondary-text);
 }

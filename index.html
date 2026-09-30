@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Planner</title>
     <link rel="stylesheet" href="./CSS/style.css">
-    <script src="./JS/script.js"></script>
-    <script src="./JS/data.js"></script>
 </head>
 
 <body>
@@ -27,46 +25,71 @@
             </div>
         </header>
 
-        <aside class="side-menu" id="sideMenu" aria-hidden="true">
-            <div class="side-menu-header">
-                <div>
-                    <strong>Menu</strong>
-                    <small>Navegação rápida</small>
+        <div class="app-body">
+            <aside class="side-menu" id="sideMenu" aria-hidden="true">
+                <div class="side-menu-header">
+                    <div>
+                        <strong>Menu</strong>
+                        <small>Navegação rápida</small>
+                    </div>
+                    <button class="icon-button small" id="closeMenuButton" type="button" aria-label="Fechar menu">
+                        ×
+                    </button>
                 </div>
 
-                <button class="icon-button small" id="closeMenuButton" type="button" aria-label="Fechar menu">
-                    ×
-                </button>
-            </div>
+                <nav>
+                    <button class="menu-item active" type="button">
+                        <span>Menu Principal</span>
+                    </button>
 
-            <nav>
-                <button class="menu-item active" type="button"> <a href="../index.html">
-                        <span>Menu Principal</span></a>
-                </button>
+                    <button class="menu-item" type="button">
+                        <a href="./PAGES/calendario.html"><span>Calendário</span></a>
+                    </button>
 
-                <button class="menu-item" type="button"> <a href="./PAGES/calendario.html">
-                        <span>Calendário</span> </a>
-                </button>
+                    <button class="menu-item" type="button">
+                        ✦ <span>Personalizar</span>
+                    </button>
 
-                <button class="menu-item" type="button">
-                    ✦ <span>Personalizar</span>
-                </button>
+                    <button class="menu-item" type="button">
+                        ◐ <span>Temas</span>
+                    </button>
 
-                <button class="menu-item" type="button">
-                    ◐ <span>Temas</span>
-                </button>
+                    <button class="menu-item" type="button">
+                        ☷ <span>Configurações futuras</span>
+                    </button>
+                </nav>
+            </aside>
 
-                <button class="menu-item" type="button">
-                    ☷ <span>Configurações futuras</span>
-                </button>
-            </nav>
-        </aside>
-        
+            <div class="menu-overlay" id="menuOverlay"></div>
 
-        <div class="menu-overlay" id="menuOverlay"></div>
+            <!-- ===== Aqui é a "página" do Notion/Affine ===== -->
+            <main class="content-area" id="contentArea">
+                <div class="workspace">
+
+                    <aside class="workspace-sidebar">
+                        <div class="menu-section-title">
+                            <span>Meu Workspace</span>
+                            <div class="workspace-actions">
+                                <button class="icon-button small" id="novaPastaBtn" type="button" title="Nova pasta">📁+</button>
+                                <button class="icon-button small" id="novaPaginaBtn" type="button" title="Nova página">📄+</button>
+                            </div>
+                        </div>
+                        <div id="arvoreItens"></div>
+                    </aside>
+
+                    <section class="workspace-editor" id="workspaceEditor">
+                        <div class="empty-state">
+                            Selecione uma página na lista ao lado, ou crie uma nova para começar a escrever.
+                        </div>
+                    </section>
+
+                </div>
+            </main>
+        </div>
     </div>
 
-
+    <script src="./JS/Data/data.js"></script>
+    <script src="./JS/script.js"></script>
 </body>
 
 </html>

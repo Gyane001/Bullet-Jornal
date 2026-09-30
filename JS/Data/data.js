@@ -1,11 +1,6 @@
 "use strict";
 
-// ---- "Banco de dados" simples usando localStorage ----
-
 const STORAGE_KEY = "meuPlannerItens";
-
-// Estrutura de cada item:
-// { id, parentId, type: "folder" | "page", title, icon, order, content }
 
 function gerarId() {
     return "id-" + Date.now() + "-" + Math.floor(Math.random() * 10000);
@@ -25,11 +20,11 @@ function criarItem({ parentId = null, type = "page", title = "Sem título", icon
     const novo = {
         id: gerarId(),
         parentId,
-        type,
+        type, // "folder" ou "page"
         title,
         icon,
         order: itens.length,
-        content: "" // vamos usar isso na etapa 3 (editor)
+        content: ""
     };
     itens.push(novo);
     salvarItens(itens);
@@ -46,14 +41,11 @@ function atualizarItem(id, dadosNovos) {
 
 function excluirItem(id) {
     let itens = carregarItens();
-    // Remove o item e também tudo que estiver "dentro" dele (recursivo)
     function coletarDescendentes(itemId) {
         const filhos = itens.filter(i => i.parentId === itemId);
-        let idsParaRemover = [itemId];
-        filhos.forEach(f => {
-            idsParaRemover = idsParaRemover.concat(coletarDescendentes(f.id));
-        });
-        return idsParaRemover;
+        let ids = [itemId];
+        filhos.forEach(f => { ids = ids.concat(coletarDescendentes(f.id)); });
+        return ids;
     }
     const idsRemover = coletarDescendentes(id);
     itens = itens.filter(i => !idsRemover.includes(i.id));
