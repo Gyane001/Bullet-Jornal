@@ -248,11 +248,14 @@ button:focus-visible {
 
 .workspace {
   display: flex;
-  flex: 1;
+  justify-content: center;
   min-width: 0;
 }
 
 .workspace-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content:flex-start;
   width: 260px;
   flex-shrink: 0;
   padding: 24px 14px;
@@ -263,7 +266,6 @@ button:focus-visible {
 
 .workspace-actions {
   display: flex;
-  justify-content: center;
   align-items: center;
   text-align: center;
   padding: 10px 14px 30px 14px;
@@ -285,6 +287,7 @@ button:focus-visible {
 
 .events-panel {
   display: flex;
+  justify-content: center;
   flex-direction: column;
   min-width: 0;
   padding: 27px 23px;
@@ -386,4 +389,68 @@ button:focus-visible {
 .page-content:empty::before {
   content: "Comece a escrever...";
   color: var(--secondary-text);
+}
+
+.arvore-item-wrapper {
+  position: relative;
+}
+
+.arvore-menu-btn {
+  border: 0;
+  background: transparent;
+  color: var(--secondary-text);
+  font-size: 16px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+.arvore-menu-btn:hover {
+  background: var(--border-color);
+}
+
+.arvore-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 8px;
+  z-index: 40;
+  min-width: 200px;
+  background: var(--calendar-bg);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.arvore-dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 0;
+  background: transparent;
+  color: var(--primary-text);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-align: left;
+  width: 100%;
+}
+
+.arvore-dropdown button:hover {
+  background: var(--weekday-bg);
+}
+
+.arvore-dropdown button.excluir {
+  color: #b3453f;
+}
+
+.arvore-dropdown-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 4px 2px;
 }

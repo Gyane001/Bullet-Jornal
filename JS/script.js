@@ -3,6 +3,7 @@
 let itemAberto = {};
 let paginaAtualId = null;
 let salvarTimeout = null;
+let menuAbertoId = null; // controla qual dropdown "..." está aberto
 
 document.addEventListener("DOMContentLoaded", () => {
     // ---------- Menu hambúrguer (igual antes) ----------
@@ -35,7 +36,10 @@ document.addEventListener("DOMContentLoaded", () => {
         menuOverlay.addEventListener("click", closeMenu);
 
         document.addEventListener("keydown", event => {
-            if (event.key === "Escape") closeMenu();
+            if (event.key === "Escape") {
+                closeMenu();
+                fecharDropdown();
+            }
         });
 
         document.querySelectorAll(".menu-item").forEach(button => {
@@ -47,7 +51,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ---------- Botões "Nova pasta" / "Nova página" ----------
+    // ---------- Fecha o dropdown "..." ao clicar fora dele ----------
+    document.addEventListener("click", (e) => {
+        if (menuAbertoId && !e.target.closest(".arvore-item-wrapper")) {
+            fecharDropdown();
+        }
+    });
+
+    // ---------- Botões "Nova pasta" / "Nova página" (na raiz) ----------
     const novaPastaBtn = document.getElementById("novaPastaBtn");
     const novaPaginaBtn = document.getElementById("novaPaginaBtn");
 
@@ -73,7 +84,16 @@ document.addEventListener("DOMContentLoaded", () => {
     renderizarArvore();
 });
 
+function fecharDropdown() {
+    menuAbertoId = null;
+    renderizarArvore();
+}
+
 // ---------- Renderização da árvore ----------
+
+function itemTemFilhos(id) {
+    return obterFilhos(id).length > 0;
+}
 
 function renderizarArvore() {
     const container = document.getElementById("arvoreItens");
@@ -86,18 +106,42 @@ function renderizarNivel(parentId, containerPai) {
     const filhos = obterFilhos(parentId);
 
     filhos.forEach(item => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "arvore-item-wrapper";
+
         const linha = document.createElement("div");
         linha.className = "arvore-item";
         linha.dataset.id = item.id;
         if (item.id === paginaAtualId) linha.classList.add("selecionado");
 
+        // Pastas sempre mostram a seta; páginas só mostram se tiverem filhos
+        const podeExpandir = item.type === "folder" || itemTemFilhos(item.id);
+
         const seta = document.createElement("span");
         seta.className = "arvore-seta";
-        seta.textContent = item.type === "folder" ? (itemAberto[item.id] ? "▾" : "▸") : "";
+        seta.textContent = podeExpandir ? (itemAberto[item.id] ? "▾" : "▸") : "";
+        if (podeExpandir) {
+            seta.addEventListener("click", (e) => {
+                e.stopPropagation();
+                menuAbertoId = null;
+                itemAberto[item.id] = !itemAberto[item.id];
+                renderizarArvore();
+            });
+        }
 
         const label = document.createElement("span");
         label.className = "arvore-label";
         label.textContent = `${item.icon} ${item.title}`;
+        label.addEventListener("click", (e) => {
+            e.stopPropagation();
+            menuAbertoId = null;
+            if (item.type === "page") {
+                abrirPagina(item.id);
+            } else {
+                itemAberto[item.id] = !itemAberto[item.id];
+                renderizarArvore();
+            }
+        });
 
         const acoes = document.createElement("span");
         acoes.className = "arvore-acoes";
@@ -109,6 +153,7 @@ function renderizarNivel(parentId, containerPai) {
         addBtn.title = "Adicionar página/pasta dentro";
         addBtn.addEventListener("click", (e) => {
             e.stopPropagation();
+            menuAbertoId = null;
             const criarPasta = confirm('OK = criar PASTA dentro\nCancelar = criar PÁGINA dentro');
             const nome = prompt(criarPasta ? "Nome da pasta:" : "Nome da página:");
             if (!nome) return;
@@ -118,50 +163,102 @@ function renderizarNivel(parentId, containerPai) {
                 title: nome,
                 icon: criarPasta ? "📁" : "📄"
             });
-            itemAberto[item.id] = true;
+            itemAberto[item.id] = true; // já abre o pai pra mostrar o item novo
             renderizarArvore();
             if (!criarPasta) abrirPagina(novo.id);
         });
 
-        const delBtn = document.createElement("button");
-        delBtn.className = "arvore-del-btn";
-        delBtn.type = "button";
-        delBtn.textContent = "🗑";
-        delBtn.title = "Excluir";
-        delBtn.addEventListener("click", (e) => {
+        const menuBtn = document.createElement("button");
+        menuBtn.className = "arvore-menu-btn";
+        menuBtn.type = "button";
+        menuBtn.textContent = "⋯";
+        menuBtn.title = "Mais opções";
+        menuBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            if (confirm(`Excluir "${item.title}" e tudo que estiver dentro dele?`)) {
-                excluirItem(item.id);
-                if (paginaAtualId === item.id) mostrarEstadoVazio();
-                renderizarArvore();
-            }
+            menuAbertoId = (menuAbertoId === item.id) ? null : item.id;
+            renderizarArvore();
         });
 
         acoes.appendChild(addBtn);
-        acoes.appendChild(delBtn);
+        acoes.appendChild(menuBtn);
 
         linha.appendChild(seta);
         linha.appendChild(label);
         linha.appendChild(acoes);
+        wrapper.appendChild(linha);
 
-        linha.addEventListener("click", () => {
-            if (item.type === "folder") {
-                itemAberto[item.id] = !itemAberto[item.id];
-                renderizarArvore();
-            } else {
-                abrirPagina(item.id);
-            }
-        });
+        if (menuAbertoId === item.id) {
+            wrapper.appendChild(criarDropdown(item));
+        }
 
-        containerPai.appendChild(linha);
+        containerPai.appendChild(wrapper);
 
-        if (item.type === "folder" && itemAberto[item.id]) {
+        if (itemAberto[item.id]) {
             const filhosContainer = document.createElement("div");
             filhosContainer.className = "arvore-filhos";
             containerPai.appendChild(filhosContainer);
             renderizarNivel(item.id, filhosContainer);
         }
     });
+}
+
+// ---------- Dropdown "..." (Renomear, Ver info, Duplicar, Remover da pasta, Lixeira) ----------
+
+function criarDropdown(item) {
+    const dropdown = document.createElement("div");
+    dropdown.className = "arvore-dropdown";
+
+    dropdown.appendChild(criarOpcao("✏️ Renomear", () => {
+        const novoNome = prompt("Novo nome:", item.title);
+        if (!novoNome) return;
+        atualizarItem(item.id, { title: novoNome });
+        fecharDropdown();
+    }));
+
+    dropdown.appendChild(criarOpcao("ℹ️ Ver informações", () => {
+        const criado = item.createdAt ? new Date(item.createdAt).toLocaleString("pt-BR") : "desconhecido";
+        alert(`Título: ${item.title}\nTipo: ${item.type === "folder" ? "Pasta" : "Página"}\nCriado em: ${criado}`);
+        fecharDropdown();
+    }));
+
+    dropdown.appendChild(criarOpcao("📄 Duplicar", () => {
+        duplicarItem(item.id);
+        fecharDropdown();
+    }));
+
+    if (item.parentId !== null) {
+        dropdown.appendChild(criarOpcao("📤 Remover da pasta", () => {
+            moverParaRaiz(item.id);
+            fecharDropdown();
+        }));
+    }
+
+    const divisor = document.createElement("div");
+    divisor.className = "arvore-dropdown-divider";
+    dropdown.appendChild(divisor);
+
+    const excluirBtn = criarOpcao("🗑️ Mover para lixeira", () => {
+        if (confirm(`Excluir "${item.title}" e tudo que estiver dentro dele?`)) {
+            excluirItem(item.id);
+            if (paginaAtualId === item.id) mostrarEstadoVazio();
+            fecharDropdown();
+        }
+    });
+    excluirBtn.classList.add("excluir");
+    dropdown.appendChild(excluirBtn);
+
+    return dropdown;
+}
+
+function criarOpcao(texto, aoClicar) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.textContent = texto;
+    btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        aoClicar();
+    });
+    return btn;
 }
 
 // ---------- Editor da página ----------
@@ -193,9 +290,13 @@ function agendarSalvar() {
     clearTimeout(salvarTimeout);
     salvarTimeout = setTimeout(() => {
         if (!paginaAtualId) return;
-        const titulo = document.getElementById("pageTitleInput").value || "Sem título";
-        const conteudo = document.getElementById("pageContentArea").innerHTML;
-        atualizarItem(paginaAtualId, { title: titulo, content: conteudo });
+        const tituloEl = document.getElementById("pageTitleInput");
+        const conteudoEl = document.getElementById("pageContentArea");
+        if (!tituloEl || !conteudoEl) return;
+        atualizarItem(paginaAtualId, {
+            title: tituloEl.value || "Sem título",
+            content: conteudoEl.innerHTML
+        });
         renderizarArvore();
     }, 500);
 }

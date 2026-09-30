@@ -20,11 +20,12 @@ function criarItem({ parentId = null, type = "page", title = "Sem título", icon
     const novo = {
         id: gerarId(),
         parentId,
-        type, // "folder" ou "page"
+        type,
         title,
         icon,
         order: itens.length,
-        content: ""
+        content: "",
+        createdAt: new Date().toISOString() // <-- novo
     };
     itens.push(novo);
     salvarItens(itens);
@@ -56,4 +57,23 @@ function obterFilhos(parentId) {
     return carregarItens()
         .filter(i => i.parentId === parentId)
         .sort((a, b) => a.order - b.order);
+}
+
+function duplicarItem(id) {
+    const itens = carregarItens();
+    const original = itens.find(i => i.id === id);
+    if (!original) return null;
+
+    const copia = criarItem({
+        parentId: original.parentId,
+        type: original.type,
+        title: original.title + " (cópia)",
+        icon: original.icon
+    });
+    atualizarItem(copia.id, { content: original.content });
+    return copia;
+}
+
+function moverParaRaiz(id) {
+    atualizarItem(id, { parentId: null });
 }
